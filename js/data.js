@@ -52,14 +52,16 @@ window.SITE_DATA = {
     { id: 'v4', title: '상원나리 · 숲속 이야기', who: '친구', src: 'assets/video/sangwonnari-forest.mp4', poster: 'assets/video/sangwonnari-forest.jpg', name: '영상_상원나리_숲.mp4' },
     { id: 'v5', title: '상원이와 은행이 · 상원이', who: '친구', src: 'assets/video/sangwoni-guard.mp4', poster: 'assets/video/sangwoni-guard.jpg', name: '영상_상원이와은행이_상원이.mp4' },
     { id: 'v6', title: '상원이와 은행이 · 은행이', who: '친구', src: 'assets/video/eunhaengi.mp4', poster: 'assets/video/eunhaengi.jpg', name: '영상_상원이와은행이_은행이.mp4' },
-    { id: 'v7', title: '새봄이', who: '친구', src: 'assets/video/saebomi.mp4', poster: 'assets/video/saebomi.jpg', name: '영상_새봄이.mp4' }
+    { id: 'v7', title: '새봄이', who: '친구', src: 'assets/video/saebomi.mp4', poster: 'assets/video/saebomi.jpg', name: '영상_새봄이.mp4' },
+    { id: 'v9', title: '원이', who: '친구', src: 'assets/video/woni.mp4', poster: 'assets/video/woni.jpg', name: '영상_원이.mp4' },
+    { id: 'v10', title: '상원이', who: '친구', src: 'assets/video/sangwoni.mp4', poster: 'assets/video/sangwoni.jpg', name: '영상_상원이.mp4' }
   ],
 
   friends: [
     { no: '①', name: '상원이와 은행이', line: '용기와 위로로 학교를 지키는 단짝', circle: 'assets/friend-circle/sangwoni-eunhaengi.jpg', img: 'assets/friend/sangwoni-eunhaengi.jpg', file: 'assets/friend/sangwoni-eunhaengi.jpg', videos: ['v5', 'v6'], tape: 'mint' },
     { no: '②', name: '새봄이', line: '친구들의 숨은 장점과 꿈을 발견하는 요정', circle: 'assets/friend-circle/saebomi.jpg', img: 'assets/friend/saebomi.jpg', file: 'assets/friend/saebomi.jpg', videos: ['v7'], tape: 'lav' },
-    { no: '③', name: '원이', line: '혼자인 친구에게 먼저 다가가는 다정한 친구', circle: 'assets/friend-circle/woni.jpg', img: 'assets/friend/woni.jpg', file: 'assets/friend/woni.jpg', videos: [], tape: 'sky' },
-    { no: '⑤', name: '상원이', line: '상상력으로 새로운 도전을 응원하는 친구', circle: 'assets/friend-circle/sangwoni.jpg', img: 'assets/friend/sangwoni.jpg', file: 'assets/friend/sangwoni.jpg', videos: [], tape: 'peach' },
+    { no: '③', name: '원이', line: '혼자인 친구에게 먼저 다가가는 다정한 친구', circle: 'assets/friend-circle/woni.jpg', img: 'assets/friend/woni.jpg', file: 'assets/friend/woni.jpg', videos: ['v9'], tape: 'sky' },
+    { no: '⑤', name: '상원이', line: '상상력으로 새로운 도전을 응원하는 친구', circle: 'assets/friend-circle/sangwoni.jpg', img: 'assets/friend/sangwoni.jpg', file: 'assets/friend/sangwoni.jpg', videos: ['v10'], tape: 'peach' },
     { no: '⑥', name: '상원나리', line: '친구의 이야기를 듣고 미소를 지켜주는 소녀', circle: 'assets/friend-circle/sangwonnari.jpg', img: 'assets/friend/sangwonnari.jpg', file: 'assets/friend/sangwonnari.jpg', videos: ['v3', 'v4'], tape: 'pink' }
   ]
 };
