@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>생일 메시지 관리 | 으냉나리</title>
+<link rel="icon" href="assets/sprite.png">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body{background:#FFF9EE}
+  .adm{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+  .adm-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+  .adm-head img{width:44px}
+  .adm-head h1{font-size:30px;color:var(--brown)}
+  .adm-head a{margin-left:auto;font-size:14px}
+  .panel{background:#fff;border-radius:22px;box-shadow:var(--shadow-sm);padding:20px 22px;margin-bottom:20px}
+  .panel h2{font-size:21px;color:var(--brown);margin-bottom:12px}
+  .login{max-width:420px;margin:60px auto;text-align:center}
+  .login input,.adm input[type=number],.adm input[type=search]{border:2px solid var(--line);border-radius:12px;padding:10px 12px;font-size:16px;font-family:inherit;background:var(--cream)}
+  .login input{width:100%;margin:12px 0}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+  .stat{background:var(--cream);border-radius:16px;padding:12px;text-align:center}
+  .stat b{display:block;font-family:var(--head);font-weight:400;font-size:30px;color:var(--brown);line-height:1.2}
+  .stat span{font-size:13px;color:var(--ink-soft)}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .bar .fchip{font-size:14px;padding:5px 14px}
+  .bar input[type=search]{flex:1;min-width:160px;padding:7px 12px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{font-family:var(--head);font-weight:400;color:var(--ink-soft);position:sticky;top:0;background:#fff}
+  td.msg{white-space:pre-wrap;word-break:break-all;max-width:420px}
+  tr.off td{opacity:.5}
+  .tag{display:inline-block;font-size:11px;border-radius:999px;padding:1px 8px;margin:1px;background:var(--butter)}
+  .tag.bad{background:#FFD6D8;color:#B23A40}
+  .tag.dup{background:var(--lav)}
+  .tbl-wrap{max-height:560px;overflow:auto}
+  .switch{border:0;border-radius:999px;padding:4px 12px;font-family:var(--head);font-size:13px}
+  .switch.on{background:var(--mint);color:#2E7D4F}
+  .switch.off{background:#eee;color:#888}
+  .raffle-opts{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:15px}
+  .raffle-opts input[type=number]{width:80px;padding:6px 10px}
+  .drum{min-height:70px;display:grid;place-items:center;font-family:var(--head);font-size:34px;color:var(--pink);background:var(--pink-soft);border-radius:18px;margin-bottom:14px}
+  .winners{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .win{background:var(--butter);border-radius:16px;padding:12px 14px}
+  .win b{font-family:var(--head);font-weight:400;font-size:20px}
+  .win p{margin:4px 0 0;font-size:13px;white-space:pre-wrap;word-break:break-all}
+  .muted{color:var(--ink-soft);font-size:13px}
+  .warn{background:#FFE9C7;border-radius:12px;padding:8px 12px;font-size:14px;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="adm">
+  <div class="adm-head">
+    <img src="assets/sprite.png" alt="">
+    <h1>생일 메시지 관리</h1>
+    <a href="index.html">← 사이트로</a>
+  </div>
+
+  <section class="panel login" id="login">
+    <h2>선생님 전용</h2>
+    <p class="muted">구글 앱스 스크립트에 설정한 관리 비밀번호(ADMIN_KEY)를 입력하세요.</p>
+    <form id="loginForm">
+      <input type="password" id="key" placeholder="관리 비밀번호" autocomplete="current-password" required>
+      <button class="btn btn-gold btn-block">들어가기</button>
+    </form>
+    <p class="form-msg err" id="loginMsg"></p>
+  </section>
+
+  <div id="app" hidden>
+    <div class="warn" id="testWarn" hidden>⚠️ 테스트 모드(TEST_MODE=on)가 켜져 있어요. 테스트가 끝나면 스크립트 속성에서 off로 바꾸고, 시트에서 '테스트' 행을 지워 주세요.</div>
+
+    <section class="panel">
+      <h2>현황 <button class="btn btn-ghost btn-sm" id="reload" style="float:right">새로고침</button></h2>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="panel">
+      <h2>🎁 간식 추첨</h2>
+      <div class="raffle-opts">
+        <label>당첨 인원 <input type="number" id="rN" min="1" value="5"></label>
+        <label><input type="checkbox" id="rUnique" checked> 같은 학번은 한 번만</label>
+        <label><input type="checkbox" id="rVisible" checked> 비공개 메시지 제외</label>
+        <label><input type="checkbox" id="rNoTest" checked> 테스트 응모 제외</label>
+      </div>
+      <div class="drum" id="drum">추첨 준비 완료</div>
+      <div class="bar">
+        <button class="btn btn-pink" id="draw">추첨하기</button>
+        <button class="btn btn-ghost btn-sm" id="copyWin" hidden>결과 복사</button>
+        <span class="muted" id="pool"></span>
+      </div>
+      <div class="winners" id="winners"></div>
+    </section>
+
+    <section class="panel">
+      <h2>메시지 목록</h2>
+      <div class="bar">
+        <button class="fchip active" data-f="all">전체</button>
+        <button class="fchip" data-f="vis">공개</button>
+        <button class="fchip" data-f="hid">비공개</button>
+        <button class="fchip" data-f="dup">중복 학번</button>
+        <input type="search" id="q" placeholder="학번·이름·내용 검색">
+        <button class="btn btn-ghost btn-sm" id="csv">CSV 받기</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>접수</th><th>학번</th><th>이름</th><th>메시지</th><th>비고</th><th>벽 공개</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <p class="muted">비속어가 의심되는 메시지는 자동으로 비공개 처리돼요. 내용을 확인한 뒤 ‘벽 공개’를 눌러 바꿀 수 있어요.</p>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
